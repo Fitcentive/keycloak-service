@@ -1,0 +1,16 @@
+= Keycloak Service
+
+== Deploy to Minikube
+1. `eval $(minikube --profile=keycloak-test docker-env)`
+2. `docker build -t keycloak-service:latest -t keycloak-service:1.0 .`
+3. `helm install keycloak-service codecentric/keycloak --version 18.1.1 --set image.repository=keycloak-service --set image.tag=1.0`
+4. `helm upgrade --reuse-values -f data/config/extra-config.yaml keycloak-service codecentric/keycloak`
+
+== Additional info
+1. Additional identity provider added via Dockerfile. For more info, check out https://github.com/BenjaminFavre/keycloak-apple-social-identity-provider[keycloak-apple-social-identity-provider]
+2. Keycloak installed via helm chart with upgrades
+3. Supply custom docker image to helm chart install
+- Dockerfile builds auth realms
+- Dockerfile also brings in external Apple identity provider
+- User data is not imported
+- Identity provider(s) data is imported
